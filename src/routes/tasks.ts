@@ -10,11 +10,19 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.put('/:id', (req: Request, res: Response) => {
-  Task.update(req.body, {
+  const task: any = {
+    ...req.body,
+    username: req?.params?.username || '',
+    updatedAt: new Date()
+  }
+
+  Task.update(task, {
     where: {
       id: req?.params?.id
     }
-  })
+  }).then(() => {
+    res.json({msj: 'success'});
+  });
 })
 
 router.get('/:username', (req: Request, res: Response) => {
@@ -24,7 +32,7 @@ router.get('/:username', (req: Request, res: Response) => {
 })
 
 router.post('/:username', (req: Request, res: Response) => {
-  const task: TaskAttributes = {
+  const task: any = {
     ...req.body,
     username: req?.params?.username || '',
     createdAt: new Date(),
