@@ -10,24 +10,19 @@ export interface TaskAttributes {
   updatedAt: Date;
 }
 
-export interface TaskModel extends Model<TaskModel, TaskAttributes> {
-  id: number
-  title: string
-  description: string
-  username: string;
-  createdAt: string
-  updatedAt: string
-}
-
-export const Task = sequelize.define<TaskModel, TaskAttributes>('tasks', {
+export class Task extends Model {}
+Task.init({
   id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
   },
   title: DataTypes.STRING,
   description: DataTypes.STRING,
   username: DataTypes.STRING,
   createdAt: DataTypes.DATE,
   updatedAt: DataTypes.DATE
-})
+}, {
+  sequelize, 
+  modelName: 'tasks'
+});

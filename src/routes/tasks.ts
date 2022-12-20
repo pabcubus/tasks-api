@@ -9,6 +9,14 @@ router.get('/', (req: Request, res: Response) => {
   });
 })
 
+router.put('/:id', (req: Request, res: Response) => {
+  Task.update(req.body, {
+    where: {
+      id: req?.params?.id
+    }
+  })
+})
+
 router.get('/:username', (req: Request, res: Response) => {
   Task.findAll({where: {username: req?.params?.username}}).then(r => {
     res.json(r);
