@@ -29,6 +29,11 @@ Install Docker containers
   $ npm run docker:compose
   ```
 
+Run the migrations
+  ```
+  $ npx sequelize db:migrate
+  ```
+
 Run the API locally
   ```
   $ npm run dev
