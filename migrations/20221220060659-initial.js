@@ -11,26 +11,21 @@ module.exports = {
       },
       title: Sequelize.STRING,
       description: Sequelize.STRING,
-      username: Sequelize.STRING,
+      userId: Sequelize.INTEGER,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });
-
+    /*
     return queryInterface.bulkInsert('tasks', [{
       "title": "title 1",
       "description": "description 1",
-      "username": "pabcubus",
+      "userId": "pabcubus",
       "createdAt": new Date(),
       "updatedAt": new Date()
     }]);
+    */
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
   }
 };

@@ -1,10 +1,21 @@
 import { Router, Response, Request } from 'express'
-import { Task, TaskAttributes } from '../services/db';
+import { Task, User, TaskAttributes } from '../services/db';
+import { authenticateToken } from './auth';
 
 const router: Router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-  Task.findAll().then(r => {
+router.use(authenticateToken);
+
+router.get('/', async (req: Request, res: Response) => {  
+  const token: string = getAuthToken(req);
+  const user: any = await User.findOne({where: {token}})
+
+  if (!user) {
+    res.status(400).json({msj: 'user not found'});
+    return; 
+  }
+
+  Task.findAll({where: {userId: user.id}}).then(r => {
     res.json(r);
   });
 })
@@ -12,7 +23,6 @@ router.get('/', (req: Request, res: Response) => {
 router.put('/:id', (req: Request, res: Response) => {
   const task: any = {
     ...req.body,
-    username: req?.params?.username || '',
     updatedAt: new Date()
   }
 
@@ -25,16 +35,18 @@ router.put('/:id', (req: Request, res: Response) => {
   });
 })
 
-router.get('/:username', (req: Request, res: Response) => {
-  Task.findAll({where: {username: req?.params?.username}}).then(r => {
-    res.json(r);
-  });
-})
+router.post('/', async (req: Request, res: Response) => {
+  const token: string = getAuthToken(req);
+  const user: any = await User.findOne({where: {token}})
 
-router.post('/:username', (req: Request, res: Response) => {
+  if (!user) {
+    res.status(400).json({msj: 'user not found'});
+    return; 
+  }
+
   const task: any = {
     ...req.body,
-    username: req?.params?.username || '',
+    userId: user.id,
     createdAt: new Date(),
     updatedAt: new Date()
   }
@@ -43,5 +55,11 @@ router.post('/:username', (req: Request, res: Response) => {
     res.json({msj: 'success'});
   });
 })
+
+function getAuthToken(req: Request): string {
+  const authHeader: string = req.headers['authorization'] || '';
+  const token: string = authHeader.split(' ')[1];
+  return token;
+}
 
 export default router;
