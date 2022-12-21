@@ -8,6 +8,7 @@ export interface TaskAttributes {
   userId: number;
   createdAt: Date;
   updatedAt: Date;
+  status: string;
 }
 
 export class Task extends Model {}
@@ -21,7 +22,8 @@ Task.init({
   description: DataTypes.STRING,
   userId: DataTypes.INTEGER,
   createdAt: DataTypes.DATE,
-  updatedAt: DataTypes.DATE
+  updatedAt: DataTypes.DATE,
+  status:  DataTypes.STRING
 }, {
   sequelize, 
   modelName: 'tasks'

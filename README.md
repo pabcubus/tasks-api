@@ -41,9 +41,9 @@ Run the API locally
 
 ## How to interact
 This project has 3 endpoints:
-1. ```GET /tasks``` to get all tasks
-2. ```GET /tasks/<username>``` to get all tasks from a username
-3. ```POST /tasks/<username>``` to save a task to a username. The JSON body should be:
+1. ```GET /auth/login``` to get a token for a user. You can test it with user and password as `user1`
+2. ```GET /tasks``` to get all tasks.
+3. ```POST /tasks``` to save a task to a username. The JSON body should be:
   ```
     {
       "title": "title 3",
@@ -59,3 +59,8 @@ This project has 3 endpoints:
       "username": "username"
     }
   ```
+All of these requests has to be done with the Authorization flag in the headers like this:
+  ```
+    Authorization: Bearer <token>
+  ```
+This is with the token generated with `/auth/login`

@@ -20,7 +20,15 @@ router.get('/', async (req: Request, res: Response) => {
   });
 })
 
-router.put('/:id', (req: Request, res: Response) => {
+router.put('/:id', async (req: Request, res: Response) => {
+  const token: string = getAuthToken(req);
+  const user: any = await User.findOne({where: {token}})
+
+  if (!user) {
+    res.status(400).json({msj: 'user not found'});
+    return; 
+  }
+
   const task: any = {
     ...req.body,
     updatedAt: new Date()
@@ -47,6 +55,7 @@ router.post('/', async (req: Request, res: Response) => {
   const task: any = {
     ...req.body,
     userId: user.id,
+    status: 'pending',
     createdAt: new Date(),
     updatedAt: new Date()
   }

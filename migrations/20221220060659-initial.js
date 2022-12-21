@@ -13,7 +13,8 @@ module.exports = {
       description: Sequelize.STRING,
       userId: Sequelize.INTEGER,
       createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE
+      updatedAt: Sequelize.DATE,
+      status:  Sequelize.STRING
     });
     /*
     return queryInterface.bulkInsert('tasks', [{
